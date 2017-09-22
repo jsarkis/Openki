@@ -7,6 +7,7 @@ import CssFromQuery from '/imports/ui/lib/css-from-query.js';
 
 import '/imports/ui/layouts';
 import '/imports/ui/pages';
+import '/imports/analytics/IronRouter.js';
 
 Router.configure({
 	layoutTemplate: 'layout',
