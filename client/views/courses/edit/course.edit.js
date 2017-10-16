@@ -1,4 +1,4 @@
-import { PleaseLogin } from '/imports/ui/lib/please-login.js';
+import { IsEmail, PleaseLogin } from '/imports/ui/account/AccountTools.js';
 import '/imports/StringTools.js';
 
 Template.courseEdit.created = function() {
@@ -148,6 +148,10 @@ Template.courseEdit.helpers({
 		if (Template.instance().data.isFrame) classes.push('is-frame');
 
 		return classes.join(' ');
+	},
+
+	showSignupField() {
+		return !this._id && !Meteor.userId();
 	}
 });
 
@@ -156,8 +160,15 @@ Template.courseEdit.events({
 	'submit form, click .js-course-edit-save': function (ev, instance) {
 		ev.preventDefault();
 
-
-		if (PleaseLogin()) return;
+		const emailSignup = instance.$('.js-email-signup').val();
+		if (emailSignup) {
+			if (!IsEmail(emailSignup)) {
+				alert(mf("course.edit.emailSignup.fixEmail", "Please provide a valid email-address."));
+				return;
+			}
+		} else {
+			if (PleaseLogin()) return;
+		}
 
 		var course = instance.data;
 		var courseId = course._id ? course._id : '';
@@ -203,6 +214,10 @@ Template.courseEdit.events({
 				groups.push(data.group);
 			}
 			changes.groups = groups;
+
+			if (emailSignup) {
+				changes.emailSignup = emailSignup;
+			}
 		}
 
 		instance.busy('saving');
