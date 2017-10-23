@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { assert } from 'meteor/practicalmeteor:chai';
+import { assert } from 'chai';
 
 function promiseMeteorCall(...args) {
 	return new Promise((resolve, reject) => {
