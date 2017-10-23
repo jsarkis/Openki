@@ -72,8 +72,8 @@ userName = function() {
 				Meteor.call('user.name', userId, function(err, user) {
 					if (err) {
 						console.warn(err);
-					}
-					if (user) {
+					} else {
+						if (!user) user = mf("username.placeholder.visitor", "Visitor");
 						cache[userId] = user;
 						pending[userId].changed();
 						delete pending[userId];
